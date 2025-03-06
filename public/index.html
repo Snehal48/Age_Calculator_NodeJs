@@ -1,0 +1,107 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Age Calculator</title> 
+    <!-- Bootstrap CSS --> 
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"> 
+    <!-- Google Fonts --> 
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"> 
+    <style> 
+        body { 
+            background-color: white; 
+            color: black; 
+            font-family: 'Roboto', sans-serif; /* Updated font style for better readability */ 
+        } 
+        .header { 
+            background-color: orange; 
+            color: white; 
+            padding: 20px; 
+            text-align: center; 
+            font-family: 'Roboto', sans-serif; /* Consistent font style */ 
+        } 
+        .form-group label, .btn { 
+            font-family: 'Roboto', sans-serif; /* Consistent font style */ 
+            font-weight: 700; 
+        } 
+        #result { 
+            font-family: 'Roboto', sans-serif; /* Consistent font style */ 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Box shadow for result area */ 
+            padding: 20px; 
+            background-color: #fff; 
+            border-radius: 5px; 
+            white-space: pre-wrap; /* Preserve formatting for multiline text */ 
+        } 
+        .form-control { 
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Box shadow for input fields */ 
+            border-radius: 5px; 
+        } 
+        .btn-primary { 
+            background-color: orange; 
+            border-color: orange; 
+        } 
+        .btn-primary:hover { 
+            background-color: #e69500; 
+            border-color: #e69500; 
+        } 
+    </style> 
+</head> 
+<body> 
+    <div class="header"> 
+        <h1>Age Calculator</h1> 
+    </div> 
+    <div class="container mt-5"> 
+        <form id="birthdateForm" class="mt-4"> 
+            <div class="form-group"> 
+                <label for="birthdate">Enter your birthdate:</label> 
+                <input type="date" class="form-control" id="birthdate" name="birthdate" required> 
+            </div> 
+            <button type="submit" class="btn btn-primary">Calculate Age</button> 
+        </form> 
+        <div id="result" class="mt-4"></div> 
+    </div> 
+ 
+    <!-- Include jQuery and Bootstrap JS --> 
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> 
+    <script> 
+        $(document).ready(function() { 
+            // Apply dynamic styling 
+            $('body').css('background-color', 'white'); 
+            $('.header').css({ 
+                'background-color': 'orange', 
+                'color': 'white' 
+            }); 
+            $('.btn-primary').css({ 
+                'background-color': 'orange', 
+                'border-color': 'orange' 
+            }).hover(function() { 
+                $(this).css({ 
+                    'background-color': '#e69500', 
+                    'border-color': '#e69500' 
+                }); 
+            }, function() { 
+                $(this).css({ 
+                    'background-color': 'orange', 
+                    'border-color': 'orange' 
+                }); 
+            }); 
+ 
+            $('#birthdateForm').submit(function(event) { 
+                event.preventDefault(); // Prevent the form from submitting the traditional way 
+ 
+                const birthdate = $('#birthdate').val(); 
+                $.post('/submit-birthdate', { birthdate: birthdate }, function(data) { 
+                    $('#result').html(` 
+                        <h3>Calculated Age:</h3> 
+                        <pre>${data.formattedOutput}</pre> 
+                    `); 
+                }).fail(function(jqXHR, textStatus, errorThrown) { 
+                    console.error('Error:', textStatus, errorThrown); 
+                    $('#result').html('<p class="text-danger">An error occurred while processing your request.</p>'); 
+                }); 
+            }); 
+        }); 
+    </script> 
+</body> 
+</html>
