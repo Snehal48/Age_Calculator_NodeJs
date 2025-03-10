@@ -31,7 +31,6 @@
             padding: 20px; 
             background-color: #fff; 
             border-radius: 5px; 
-            white-space: pre-wrap; /* Preserve formatting for multiline text */ 
         } 
         .form-control { 
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Box shadow for input fields */ 
@@ -94,7 +93,16 @@
                 $.post('/submit-birthdate', { birthdate: birthdate }, function(data) { 
                     $('#result').html(` 
                         <h3>Calculated Age:</h3> 
-                        <pre>${data.formattedOutput}</pre> 
+                        <ul> 
+                            <li>Years: ${data.years}</li> 
+                            <li>Months: ${data.months}</li> 
+                            <li>Weeks: ${data.weeks}</li> 
+                            <li>Days: ${data.days}</li> 
+                            <li>Hours: ${data.hours}</li> 
+                            <li>Minutes: ${data.minutes}</li> 
+                            <li>Seconds: ${data.seconds}</li> 
+                            <li>Days Until Next Birthday: ${data.daysUntilNextBirthday}</li> 
+                        </ul> 
                     `); 
                 }).fail(function(jqXHR, textStatus, errorThrown) { 
                     console.error('Error:', textStatus, errorThrown); 

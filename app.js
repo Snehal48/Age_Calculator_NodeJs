@@ -23,36 +23,29 @@ app.post('/submit-birthdate', (req, res) => {
  
     // Calculate age in different units 
     const years = currentMoment.diff(birthMoment, 'years'); 
-    const months = currentMoment.diff(birthMoment.clone().add(years, 'years'), 'months'); 
-    const days = currentMoment.diff(birthMoment.clone().add(years, 'years').add(months, 'months'), 'days'); 
+    const months = currentMoment.diff(birthMoment, 'months'); 
     const weeks = currentMoment.diff(birthMoment, 'weeks'); 
-    const totalDays = currentMoment.diff(birthMoment, 'days'); 
+    const days = currentMoment.diff(birthMoment, 'days'); 
     const hours = currentMoment.diff(birthMoment, 'hours'); 
     const minutes = currentMoment.diff(birthMoment, 'minutes'); 
     const seconds = currentMoment.diff(birthMoment, 'seconds'); 
  
     // Calculate days until next birthday 
-    const nextBirthday = birthMoment.clone().add(years + 1, 'years'); 
+    const nextBirthday = birthMoment.add(years + 1, 'years'); 
     const daysUntilNextBirthday = nextBirthday.diff(currentMoment, 'days'); 
+    console.log(`Days until next birthday: ${daysUntilNextBirthday}`); 
  
-    // Format output string 
-    const formattedOutput = ` 
-      Age = ${years} years 
-      Born on: ${birthMoment.format('dddd MMMM D, YYYY')} 
-      Age on: ${currentMoment.format('dddd MMMM D, YYYY')} 
-      Exact age in different time units: 
-      = ${years} years ${months} months ${days} days 
-      = ${currentMoment.diff(birthMoment, 'months')} months ${days} days 
-      = ${weeks} weeks ${days} days 
-      = ${totalDays} days 
-      ≈ ${hours} hours 
-      ≈ ${minutes} minutes 
-      ≈ ${seconds} seconds 
-      ${daysUntilNextBirthday} days till next birthday ${nextBirthday.format('dddd MMMM D, YYYY')} 
-    `; 
- 
-    // Send the formatted output back to the client 
-    res.json({ formattedOutput: formattedOutput.trim() }); 
+    // Send the calculated age and days until next birthday back to the client 
+    res.json({ 
+      years: years, 
+      months: months, 
+      weeks: weeks, 
+      days: days, 
+      hours: hours, 
+      minutes: minutes, 
+      seconds: seconds, 
+      daysUntilNextBirthday: daysUntilNextBirthday 
+    }); 
   } catch (error) { 
     console.error('Error handling form submission:', error); 
     res.status(500).send('An error occurred while processing your request.'); 
