@@ -54,7 +54,7 @@
         <form id="birthdateForm" class="mt-4"> 
             <div class="form-group"> 
                 <label for="birthdate">Enter your birthdate:</label> 
-                <input type="date" class="form-control" id="birthdate" name="birthdate" required> 
+                <input type="text" placeholder="dd/mm/yyyy" class="form-control" id="birthdate" name="birthdate" required> 
             </div> 
             <button type="submit" class="btn btn-primary">Calculate Age</button> 
         </form> 
@@ -110,6 +110,17 @@
                 }); 
             }); 
         }); 
+  document.addEventListener('DOMContentLoaded', function() {
+  const dateInput = document.querySelector('input[type="text"][placeholder="DD/MM/YYYY"]');
+  dateInput.addEventListener('input', function() {
+    const datePattern = /^\d{2}\/\d{2}\/\d{4}$/;
+    if (!datePattern.test(dateInput.value)) {
+      dateInput.setCustomValidity('Please enter the date in DD/MM/YYYY format.');
+    } else {
+      dateInput.setCustomValidity('');
+    }
+  });
+});
     </script> 
 </body> 
 </html>
